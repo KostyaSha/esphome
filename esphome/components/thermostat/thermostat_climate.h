@@ -111,6 +111,7 @@ class ThermostatClimate : public climate::Climate, public Component {
   void set_supports_swing_mode_off(bool supports_swing_mode_off);
   void set_supports_swing_mode_vertical(bool supports_swing_mode_vertical);
   void set_supports_two_points(bool supports_two_points);
+  void set_heat_cool_only(bool heat_cool_only);
 
   void set_preset_config(climate::ClimatePreset preset, const ThermostatClimateTargetTempConfig &config);
   void set_custom_preset_config(const std::string &name, const ThermostatClimateTargetTempConfig &config);
@@ -299,6 +300,9 @@ class ThermostatClimate : public climate::Climate, public Component {
   ///
   /// A false value means that the controller has no such support.
   bool supports_two_points_{false};
+
+  /// Whether we need disable HEAT/COOL and keep HEAT_COOL mode
+  bool heat_cool_only_{false};
 
   /// Flags indicating if maximum allowable run time was exceeded
   bool cooling_max_runtime_exceeded_{false};

@@ -241,13 +241,13 @@ climate::ClimateTraits ThermostatClimate::traits() {
     traits.add_supported_mode(climate::CLIMATE_MODE_AUTO);
   if (supports_heat_cool_)
     traits.add_supported_mode(climate::CLIMATE_MODE_HEAT_COOL);
-  if (supports_cool_)
+  if (supports_cool_ and not heat_cool_only_)
     traits.add_supported_mode(climate::CLIMATE_MODE_COOL);
   if (supports_dry_)
     traits.add_supported_mode(climate::CLIMATE_MODE_DRY);
   if (supports_fan_only_)
     traits.add_supported_mode(climate::CLIMATE_MODE_FAN_ONLY);
-  if (supports_heat_)
+  if (supports_heat_ and not heat_cool_only_)
     traits.add_supported_mode(climate::CLIMATE_MODE_HEAT);
 
   if (supports_fan_mode_on_)
@@ -1257,6 +1257,7 @@ void ThermostatClimate::set_supports_swing_mode_vertical(bool supports_swing_mod
 void ThermostatClimate::set_supports_two_points(bool supports_two_points) {
   this->supports_two_points_ = supports_two_points;
 }
+void ThermostatClimate::set_heat_cool_only(bool heat_cool_only) { this->heat_cool_only_ = heat_cool_only; }
 
 Trigger<> *ThermostatClimate::get_cool_action_trigger() const { return this->cool_action_trigger_; }
 Trigger<> *ThermostatClimate::get_supplemental_cool_action_trigger() const {
@@ -1343,6 +1344,7 @@ void ThermostatClimate::dump_config() {
   ESP_LOGCONFIG(TAG, "  Minimum Idle Time: %" PRIu32 "s", this->timer_[thermostat::TIMER_IDLE_ON].time / 1000);
   ESP_LOGCONFIG(TAG, "  Supports AUTO: %s", YESNO(this->supports_auto_));
   ESP_LOGCONFIG(TAG, "  Supports HEAT/COOL: %s", YESNO(this->supports_heat_cool_));
+  ESP_LOGCONFIG(TAG, "  Supports HEAT_COOL_ONLY: %s", YESNO(this->heat_cool_only_));
   ESP_LOGCONFIG(TAG, "  Supports COOL: %s", YESNO(this->supports_cool_));
   ESP_LOGCONFIG(TAG, "  Supports DRY: %s", YESNO(this->supports_dry_));
   ESP_LOGCONFIG(TAG, "  Supports FAN_ONLY: %s", YESNO(this->supports_fan_only_));

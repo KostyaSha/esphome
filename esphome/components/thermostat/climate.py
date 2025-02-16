@@ -32,6 +32,7 @@ from esphome.const import (
     CONF_FAN_WITH_COOLING,
     CONF_FAN_WITH_HEATING,
     CONF_HEAT_ACTION,
+    CONF_HEAT_COOL_ONLY,
     CONF_HEAT_DEADBAND,
     CONF_HEAT_MODE,
     CONF_HEAT_OVERRUN,
@@ -240,6 +241,7 @@ def validate_thermostat(config):
             CONF_MAX_HEATING_RUN_TIME,
             CONF_SUPPLEMENTAL_HEATING_ACTION,
         ],
+        CONF_HEAT_COOL_ONLY: [CONF_COOL_MODE, CONF_HEAT_MODE],
     }
     for config_trigger, req_triggers in requirements.items():
         for req_trigger in req_triggers:
@@ -527,6 +529,9 @@ CONFIG_SCHEMA = cv.All(
                 CONF_SUPPLEMENTAL_COOLING_ACTION
             ): automation.validate_automation(single=True),
             cv.Optional(CONF_DRY_ACTION): automation.validate_automation(single=True),
+            cv.Optional(CONF_HEAT_COOL_ONLY): automation.validate_automation(
+                single=True
+            ),
             cv.Optional(CONF_FAN_ONLY_ACTION): automation.validate_automation(
                 single=True
             ),
@@ -645,12 +650,15 @@ async def to_code(config):
     await climate.register_climate(var, config)
 
     heat_cool_mode_available = CONF_HEAT_ACTION in config and CONF_COOL_ACTION in config
+    heat_cool_only = CONF_HEAT_COOL_ONLY in config
     two_points_available = CONF_HEAT_ACTION in config and (
         CONF_COOL_ACTION in config
         or (config[CONF_FAN_ONLY_COOLING] and CONF_FAN_ONLY_ACTION in config)
     )
-    if two_points_available:
+    if two_points_available and not heat_cool_only:
         cg.add(var.set_supports_two_points(True))
+    if heat_cool_only:
+        cg.add(var.set_heat_cool_only(True))
 
     sens = await cg.get_variable(config[CONF_SENSOR])
     cg.add(
