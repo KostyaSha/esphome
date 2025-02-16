@@ -32,7 +32,6 @@ from esphome.const import (
     CONF_FAN_WITH_COOLING,
     CONF_FAN_WITH_HEATING,
     CONF_HEAT_ACTION,
-    CONF_HEAT_COOL_ONLY,
     CONF_HEAT_DEADBAND,
     CONF_HEAT_MODE,
     CONF_HEAT_OVERRUN,
@@ -74,6 +73,7 @@ from esphome.const import (
 CONF_PRESET_CHANGE = "preset_change"
 CONF_DEFAULT_PRESET = "default_preset"
 CONF_ON_BOOT_RESTORE_FROM = "on_boot_restore_from"
+CONF_HEAT_COOL_ONLY = "heat_cool_only"
 
 CODEOWNERS = ["@kbx81"]
 
