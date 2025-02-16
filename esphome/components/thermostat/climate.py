@@ -241,7 +241,7 @@ def validate_thermostat(config):
             CONF_MAX_HEATING_RUN_TIME,
             CONF_SUPPLEMENTAL_HEATING_ACTION,
         ],
-        CONF_HEAT_COOL_ONLY: [CONF_COOL_MODE, CONF_HEAT_MODE],
+        # CONF_HEAT_COOL_ONLY: [CONF_COOL_MODE, CONF_HEAT_MODE],
     }
     for config_trigger, req_triggers in requirements.items():
         for req_trigger in req_triggers:
