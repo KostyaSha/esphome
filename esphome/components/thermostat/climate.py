@@ -529,9 +529,7 @@ CONFIG_SCHEMA = cv.All(
                 CONF_SUPPLEMENTAL_COOLING_ACTION
             ): automation.validate_automation(single=True),
             cv.Optional(CONF_DRY_ACTION): automation.validate_automation(single=True),
-            cv.Optional(CONF_HEAT_COOL_ONLY): automation.validate_automation(
-                single=True
-            ),
+            cv.Optional(CONF_HEAT_COOL_ONLY, default=False): cv.boolean,
             cv.Optional(CONF_FAN_ONLY_ACTION): automation.validate_automation(
                 single=True
             ),
