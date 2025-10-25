@@ -77,12 +77,12 @@ class PulseCounterSensor : public sensor::Sensor, public PollingComponent {
   void setup() override;
   void update() override;
   void dump_config() override;
+  uint32_t current_total_{0};
 
  protected:
   InternalGPIOPin *pin_;
   PulseCounterStorageBase &storage_;
   uint32_t last_time_{0};
-  uint32_t current_total_{0};
   sensor::Sensor *total_sensor_{nullptr};
 };
 
